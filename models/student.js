@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.schema;
+const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
   name: String,
@@ -10,4 +10,4 @@ const studentSchema = new Schema({
   caffeine: Number
 });
 
-module.exports = exports = studentSchema;
+module.exports = exports = mongoose.model('Students', studentSchema);

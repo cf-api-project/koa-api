@@ -1,14 +1,14 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.schema;
+const Schema = mongoose.Schema;
 
 const instructorSchema = new Schema({
   name: { type: String, default: 'Tyler' },
-  fucksGiven: Number,
+  fucksGiven: { type: Number, default: 0 },
   fatigued: { type: Boolean, default: true },
   caffeine: Number,
   facialHair: Boolean
 });
 
-module.exports = exports = instructorSchema;
+module.exports = exports = mongoose.model('Instructor', instructorSchema);
