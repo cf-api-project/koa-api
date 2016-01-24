@@ -15,11 +15,11 @@ module.exports = exports = instructorRouter
     });
   })
   .post('/instructors', bodyParser(), function* () {
-    const newInstructor = instructorModel.create(this.request.body);
-    yield newInstructor.save(err => {
+    const newInstructor = yield instructorModel.create(this.request.body);
+    yield newInstructor.save((err, data) => {
       if (err) return errorHandler(err).bind(this);
       this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      this.response.body = data;
     });
   })
   .put('/instructors/:id', bodyParser(), function* () {

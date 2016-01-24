@@ -15,11 +15,11 @@ module.exports = exports = studentRouter
     });
   })
   .post('/students', bodyParser(), function* () {
-    const newStudent = studentModel.create(this.request.body);
-    yield newStudent.save(err => {
+    const newStudent = yield studentModel.create(this.request.body);
+    yield newStudent.save((err, data) => {
       if (err) return errorHandler(err).bind(this);
       this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      this.response.body = data;
     });
   })
   .put('/students/:id', bodyParser(), function* () {
