@@ -1,0 +1,25 @@
+{
+  "name": "koa-api",
+  "version": "0.0.0",
+  "description": "2 Resource API test build with Koa",
+  "main": "server.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha test"
+  },
+  "keywords": [],
+  "author": "Ardian Ajvazi, Logan Tegman, Jose Tello, Gene Troy",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "chai-http": "^1.0.0",
+    "eslint": "^1.10.3",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "koa": "^1.1.2",
+    "mongoose": "^4.3.6"
+  }
+}
