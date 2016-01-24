@@ -2,37 +2,37 @@
 
 const bodyParser = require('koa-bodyparser');
 const router = require('koa-router');
-const studentModel = require(__dirname + '/../models/student');
-const studentRouter = router();
+const instructorModel = require(__dirname + '/../models/instructor');
+const instructorRouter = router();
 const errorHandler = require(__dirname + '/../lib/error_handler');
 
-module.exports = exports = studentRouter
-  .get('/students', function* () {
-    studentModel.find({}, (err, data) => {
+module.exports = exports = instructorRouter
+  .get('/instructors', function* () {
+    instructorModel.find({}, (err, data) => {
       if (err) return errorHandler(err).bind(this);
       this.response.status(200);
       this.response.body = data;
     });
   })
-  .post('/students', bodyParser(), function* () {
-    const newStudent = studentModel.create(this.request.body);
-    newStudent.save(err => {
+  .post('/instructors', bodyParser(), function* () {
+    const newInstructor = instructorModel.create(this.request.body);
+    newInstructor.save(err => {
       if (err) return errorHandler(err).bind(this);
       this.response.status(200);
       this.response.body = { msg: 'success' };
     });
   })
-  .put('/students/:id', bodyParser(), function* () {
+  .put('/instructors/:id', bodyParser(), function* () {
     var putBody = this.request.body;
     delete putBody._id;
-    studentModel.update({ _id: this.params.id }, putBody, err => {
+    instructorModel.update({ _id: this.params.id }, putBody, err => {
       if (err) return errorHandler(err).bind(this);
       this.response.status(200);
       this.response.body = { msg: 'success' };
     });
   })
-  .delete('/students/:id', function* () {
-    studentModel.remove({ _id: this.params.id }, err => {
+  .delete('/instructors/:id', function* () {
+    instructorModel.remove({ _id: this.params.id }, err => {
       if (err) return errorHandler(err).bind(this);
       this.response.status(200);
       this.response.body = { msg: 'success' };
