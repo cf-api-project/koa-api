@@ -8,33 +8,41 @@ const errorHandler = require(__dirname + '/../lib/error_handler');
 
 module.exports = exports = instructorRouter
   .get('/instructors', function* () {
-    yield instructorModel.find({}, (err, data) => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      const data = yield instructorModel.find({}).exec();
       this.response.status = 200;
       this.response.body = data;
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .post('/instructors', bodyParser(), function* () {
     const newInstructor = yield instructorModel.create(this.request.body);
-    yield newInstructor.save((err, data) => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      const data = yield newInstructor.save();
       this.response.status = 200;
       this.response.body = data;
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .put('/instructors/:id', bodyParser(), function* () {
     var putBody = this.request.body;
     delete putBody._id;
-    yield instructorModel.update({ _id: this.params.id }, putBody, err => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      yield instructorModel.update({ _id: this.params.id }, putBody).exec();
       this.response.status = 200;
       this.response.body = { msg: 'success' };
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .delete('/instructors/:id', function* () {
-    yield instructorModel.remove({ _id: this.params.id }, err => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      yield instructorModel.remove({ _id: this.params.id });
       this.response.status = 200;
       this.response.body = { msg: 'success' };
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   });

@@ -8,33 +8,41 @@ const errorHandler = require(__dirname + '/../lib/error_handler');
 
 module.exports = exports = studentRouter
   .get('/students', function* () {
-    yield studentModel.find({}, (err, data) => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      const data = yield studentModel.find({}).exec();
       this.response.status = 200;
       this.response.body = data;
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .post('/students', bodyParser(), function* () {
     const newStudent = yield studentModel.create(this.request.body);
-    yield newStudent.save((err, data) => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      const data = yield newStudent.save();
       this.response.status = 200;
       this.response.body = data;
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .put('/students/:id', bodyParser(), function* () {
     var putBody = this.request.body;
     delete putBody._id;
-    yield studentModel.update({ _id: this.params.id }, putBody, err => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      yield studentModel.update({ _id: this.params.id }, putBody).exec();
       this.response.status = 200;
       this.response.body = { msg: 'success' };
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   })
   .delete('/students/:id', function* () {
-    yield studentModel.remove({ _id: this.params.id }, err => {
-      if (err) return errorHandler(err).bind(this);
+    try {
+      yield studentModel.remove({ _id: this.params.id });
       this.response.status = 200;
       this.response.body = { msg: 'success' };
-    });
+    } catch (e) {
+      errorHandler(e).bind(this);
+    }
   });
