@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
   name: String,
-  debt: String,
+  debt: Number,
   fatigued: { type: Boolean, default: true },
   caffeine: Number
 });
