@@ -1,9 +1,8 @@
 'use strict';
 
 const bodyParser = require('koa-bodyparser');
-const router = require('koa-router');
+const instructorRouter = require('koa-router')();
 const instructorModel = require(__dirname + '/../models/instructor');
-const instructorRouter = router();
 const errorHandler = require(__dirname + '/../lib/error_handler');
 
 module.exports = exports = instructorRouter
@@ -27,7 +26,7 @@ module.exports = exports = instructorRouter
     }
   })
   .put('/instructors/:id', bodyParser(), function* () {
-    var putBody = this.request.body;
+    const putBody = this.request.body;
     delete putBody._id;
     try {
       yield instructorModel.update({ _id: this.params.id }, putBody).exec();

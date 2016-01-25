@@ -1,10 +1,9 @@
 'use strict';
 
-const koa = require('koa');
+const app = require('koa')();
 const mongoose = require('mongoose');
 const rootRouter = require(__dirname + '/routes/root_router');
 
-const app = koa();
 const PORT = process.env.PORT || 3000;
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/koa_api');
 
