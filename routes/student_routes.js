@@ -2,46 +2,45 @@
 
 const bodyParser = require('koa-bodyparser');
 const studentRouter = require('koa-router')();
-const studentModel = require(__dirname + '/../models/student');
+const Student = require(__dirname + '/../models/student');
 const errorHandler = require(__dirname + '/../lib/error_handler');
 
 module.exports = exports = studentRouter
   .get('/students', function* () {
     try {
-      const data = yield studentModel.find({}).exec();
-      this.response.status = 200;
-      this.response.body = data;
+      var data = yield Student.find({}).exec();
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = data;
   })
   .post('/students', bodyParser(), function* () {
-    const newStudent = yield studentModel.create(this.request.body);
     try {
-      const data = yield newStudent.save();
-      this.response.status = 200;
-      this.response.body = data;
+      var data = yield Student.create(this.request.body);
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = data;
   })
   .put('/students/:id', bodyParser(), function* () {
     const putBody = this.request.body;
     delete putBody._id;
     try {
-      yield studentModel.update({ _id: this.params.id }, putBody).exec();
-      this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      yield Student.update({ _id: this.params.id }, putBody).exec();
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = { msg: 'success' };
   })
   .delete('/students/:id', function* () {
     try {
-      yield studentModel.remove({ _id: this.params.id });
-      this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      yield Student.remove({ _id: this.params.id });
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = { msg: 'success' };
   });

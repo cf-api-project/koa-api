@@ -12,7 +12,7 @@ const request = chai.request;
 require(__dirname + '/../server');
 
 describe('Instructor API', () => {
-  it('should make a valid GET request at /instructors', (done) => {
+  it('should make a valid GET request at /instructors', done => {
     request('localhost:3000')
       .get('/api/instructors')
       .end((err, res) => {
@@ -21,7 +21,7 @@ describe('Instructor API', () => {
         done();
       });
   });
-  it('should make a valid POST request at /instructors', (done) => {
+  it('should make a valid POST request at /instructors', done => {
     request('localhost:3000')
       .post('/api/instructors')
       .send({ name: 'Tyler', facialHair: false })
