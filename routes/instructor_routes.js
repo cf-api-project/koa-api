@@ -2,46 +2,45 @@
 
 const bodyParser = require('koa-bodyparser');
 const instructorRouter = require('koa-router')();
-const instructorModel = require(__dirname + '/../models/instructor');
+const Instructor = require(__dirname + '/../models/instructor');
 const errorHandler = require(__dirname + '/../lib/error_handler');
 
 module.exports = exports = instructorRouter
   .get('/instructors', function* () {
     try {
-      const data = yield instructorModel.find({}).exec();
-      this.response.status = 200;
-      this.response.body = data;
+      var data = yield Instructor.find({}).exec();
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = data;
   })
   .post('/instructors', bodyParser(), function* () {
-    const newInstructor = yield instructorModel.create(this.request.body);
     try {
-      const data = yield newInstructor.save();
-      this.response.status = 200;
-      this.response.body = data;
+      var data = yield Instructor.create(this.request.body);
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = data;
   })
   .put('/instructors/:id', bodyParser(), function* () {
     const putBody = this.request.body;
     delete putBody._id;
     try {
-      yield instructorModel.update({ _id: this.params.id }, putBody).exec();
-      this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      yield Instructor.update({ _id: this.params.id }, putBody).exec();
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = { msg: 'success' };
   })
   .delete('/instructors/:id', function* () {
     try {
-      yield instructorModel.remove({ _id: this.params.id });
-      this.response.status = 200;
-      this.response.body = { msg: 'success' };
+      yield Instructor.remove({ _id: this.params.id });
     } catch (e) {
       errorHandler(e).bind(this);
     }
+    this.response.status = 200;
+    this.response.body = { msg: 'success' };
   });
